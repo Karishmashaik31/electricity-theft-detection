@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Electricity Theft Detection</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Electricity theft detection</h1>
+      <p>Paste daily smart meter readings and the model scores how likely the consumer is to be stealing power.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>1. Enter readings</h2>
+      <label for="readings">Daily consumption in kWh (14 or more values, separated by commas, spaces or new lines)</label>
+      <textarea id="readings" rows="6" placeholder="12.4, 11.8, 13.1, 12.9, ..."></textarea>
+      <div class="row">
+        <button id="analyze" class="primary">Analyze</button>
+        <button id="sampleNormal" class="ghost">Load normal sample</button>
+        <button id="sampleTheft" class="ghost">Load theft sample</button>
+        <button id="clear" class="ghost">Clear</button>
+      </div>
+      <p id="error" class="error" role="alert"></p>
+    </section>
+
+    <section class="card" id="resultCard" hidden>
+      <h2>2. Result</h2>
+      <div class="result-grid">
+        <div>
+          <div id="verdict" class="verdict"></div>
+          <div class="meter"><div id="meterFill"></div></div>
+          <p id="probText" class="muted"></p>
+          <ul id="reasons" class="reasons"></ul>
+          <table id="featTable" class="feat"></table>
+        </div>
+        <div class="chart-box"><canvas id="chart"></canvas></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Check many consumers at once</h2>
+      <p class="muted">Upload a CSV. Each row is one consumer: the first column is the consumer ID, the rest are daily kWh readings.</p>
+      <div class="row">
+        <input type="file" id="csvFile" accept=".csv">
+        <button id="uploadBtn" class="primary">Upload and score</button>
+      </div>
+      <p id="batchError" class="error" role="alert"></p>
+      <div id="batchSummary" class="muted"></div>
+      <div class="table-scroll">
+        <table id="batchTable" class="batch" hidden>
+          <thead><tr><th>Consumer</th><th>Theft probability</th><th>Risk</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Model performance</h2>
+      <div id="metrics" class="metrics muted">Loading...</div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
